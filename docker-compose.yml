@@ -1,0 +1,19 @@
+version: '3.2'
+
+services:
+  filebeat:
+    build:
+      context: filebeat/
+      args:
+          ELK_VERSION: $ELK_VERSION
+    environment:
+      ELK_USERNAME: $ELK_USERNAME
+      ELK_PASSWORD: $ELK_PASSWORD
+    volumes:
+      - ./log:/usr/share/filebeat/logs
+    networks:
+        - default
+networks:
+  default:
+    external:
+      name: genezis_elk_elk

@@ -1,0 +1,27 @@
+filebeat.inputs:
+- type: log
+  enabled: true
+  json.keys_under_root: true
+  json.add_error_key: true
+  json.message_key: message
+  paths:
+    - /usr/share/filebeat/logs/*/*.log
+
+setup.template.name: "filebeat-"
+setup.template.pattern: "filebeat-*"
+#setup.dashboards.enabled: true
+
+setup.kibana:
+  host: https://b785aa281c894baf8908f3e7c2d8b44e.us-central1.gcp.cloud.es.io:9243
+  username: '${ELK_USERNAME}'
+  password: '${ELK_PASSWORD}'
+
+#output.logstash:
+#  hosts: ["logstash:5044"]
+
+output:
+  elasticsearch:
+    hosts: ["https://9864d16ad9324b8d92467ed570fc5cee.us-central1.gcp.cloud.es.io:9243"]
+    username: '${ELK_USERNAME}'
+    password: '${ELK_PASSWORD}'
+    index: "filebeat-%{[beat.version]}-%{+yyyy.MM.dd}"
